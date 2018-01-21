@@ -41,11 +41,13 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
-			<version>4.0.0</version>
+			<version>3.3.7-1</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
 		<dependency>
