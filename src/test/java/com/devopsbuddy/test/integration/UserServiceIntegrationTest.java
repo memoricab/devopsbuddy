@@ -22,10 +22,8 @@ import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = DevopsbuddyApplication.class)
-public class UserServiceIntegrationTest {
+public class UserServiceIntegrationTest extends AbstractServiceIntegrationTest {
 
-    @Autowired
-    private UserService userService;
 
     @Rule
     public TestName testName = new TestName();
@@ -33,15 +31,7 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void testCreateNewUser() throws Exception {
-        Set<UserRole> userRoles = new HashSet<>();
-
-        String username = testName.getMethodName();
-        String email = testName.getMethodName() + "@devopsbuddy.com";
-
-        User basicUser = UserUtils.createBasicUser(username, email);
-        userRoles.add(new UserRole(basicUser, new Role(RolesEnum.BASIC)));
-
-        User user = userService.createUser(basicUser, PlansEnum.BASIC, userRoles);
+        User user = createUser(testName);
         Assert.assertNotNull(user);
         Assert.assertNotNull(user.getId());
     }

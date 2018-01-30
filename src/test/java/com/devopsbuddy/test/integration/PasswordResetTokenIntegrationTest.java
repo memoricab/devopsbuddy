@@ -102,6 +102,7 @@ public class PasswordResetTokenIntegrationTest extends AbstractIntegrationTest {
         LocalDateTime now = LocalDateTime.now(Clock.systemUTC());
 
         PasswordResetToken passwordResetToken = createPasswordResetToken(token, user, now);
+        passwordResetToken.getId();
 
         userRepository.delete(user.getId());
 
