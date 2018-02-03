@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -70,6 +71,7 @@ public class SignupController {
 
     @RequestMapping(value = SIGNUP_URL_MAPPING, method = RequestMethod.POST)
     public String signUpPost(@RequestParam(name = "planId", required = true) int planId,
+                             @RequestParam(name = "file", required = false) MultipartFile file,
                              @ModelAttribute(PAYLOAD_MODEL_KEY_NAME) @Valid ProAccountPayload payload,
                              ModelMap model) throws IOException {
 
@@ -106,6 +108,18 @@ public class SignupController {
 
         LOG.debug("Transofrming user payload into User domain obejct");
         User user = UserUtils.fromWebUserToDomainUser(payload);
+
+        if (file != null && !file.isEmpty()) {
+
+            String profileImageUrl = null;
+            if (profileImageUrl != null) {
+                user.setProfileImageUrl(profileImageUrl);
+            } else {
+                LOG.warn("there was a problem uploading the profile image to s3. the user's profile will be created without image! ");
+            }
+
+        }
+
 
         LOG.debug("Retrieving plan from the database");
         Plan selectedPlan = planService.findPlanById(planId);
