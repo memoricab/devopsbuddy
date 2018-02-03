@@ -3,6 +3,7 @@ package com.devopsbuddy;
 import com.devopsbuddy.backend.persistence.domain.backend.Role;
 import com.devopsbuddy.backend.persistence.domain.backend.User;
 import com.devopsbuddy.backend.persistence.domain.backend.UserRole;
+import com.devopsbuddy.backend.service.PlanService;
 import com.devopsbuddy.backend.service.UserService;
 import com.devopsbuddy.enums.PlansEnum;
 import com.devopsbuddy.enums.RolesEnum;
@@ -23,6 +24,8 @@ public class DevopsbuddyApplication implements CommandLineRunner {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PlanService planService;
     private static final Logger LOG = LoggerFactory.getLogger(DevopsbuddyApplication.class);
 
     @Value("${webmaster.username}")
@@ -40,6 +43,11 @@ public class DevopsbuddyApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+
+        LOG.info("Creating Bsaic and Pro plans in the database...");
+        planService.createPlan(PlansEnum.BASIC.getId());
+        planService.createPlan(PlansEnum.PRO.getId());
+
 
         User user = UserUtils.createBasicUser(webmasterUsername, webmasterEmail);
         user.setPassword(webmasterPassword);
